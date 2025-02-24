@@ -4,15 +4,22 @@ namespace csgame
     class Game : Object
     {
         public static Level level;
-        public Game() {
+        public Game()
+        {
             // Clear();
 
             PrintWithColor("Инициализация игры!", ConsoleColor.Black, ConsoleColor.DarkBlue);
 
             level = new Level();
 
-            level.GenerateLevel(2);
-            level.WriteLevel();
+            for (int i = 2; i < 6; i++)
+            {
+                level.GenerateLevel(i);
+                level.WriteLevel();
+            }
+            // level.GenerateLevel(4);
+
+
         }
     }
 }
