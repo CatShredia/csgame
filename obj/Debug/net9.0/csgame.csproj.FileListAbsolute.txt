@@ -1,0 +1,14 @@
+D:\directory-git\csgame\bin\Debug\net9.0\csgame.exe
+D:\directory-git\csgame\bin\Debug\net9.0\csgame.deps.json
+D:\directory-git\csgame\bin\Debug\net9.0\csgame.runtimeconfig.json
+D:\directory-git\csgame\bin\Debug\net9.0\csgame.dll
+D:\directory-git\csgame\bin\Debug\net9.0\csgame.pdb
+D:\directory-git\csgame\obj\Debug\net9.0\csgame.GeneratedMSBuildEditorConfig.editorconfig
+D:\directory-git\csgame\obj\Debug\net9.0\csgame.AssemblyInfoInputs.cache
+D:\directory-git\csgame\obj\Debug\net9.0\csgame.AssemblyInfo.cs
+D:\directory-git\csgame\obj\Debug\net9.0\csgame.csproj.CoreCompileInputs.cache
+D:\directory-git\csgame\obj\Debug\net9.0\csgame.dll
+D:\directory-git\csgame\obj\Debug\net9.0\refint\csgame.dll
+D:\directory-git\csgame\obj\Debug\net9.0\csgame.pdb
+D:\directory-git\csgame\obj\Debug\net9.0\csgame.genruntimeconfig.cache
+D:\directory-git\csgame\obj\Debug\net9.0\ref\csgame.dll
