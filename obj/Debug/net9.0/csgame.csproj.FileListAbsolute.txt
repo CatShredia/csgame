@@ -12,3 +12,4 @@ D:\directory-git\csgame\obj\Debug\net9.0\refint\csgame.dll
 D:\directory-git\csgame\obj\Debug\net9.0\csgame.pdb
 D:\directory-git\csgame\obj\Debug\net9.0\csgame.genruntimeconfig.cache
 D:\directory-git\csgame\obj\Debug\net9.0\ref\csgame.dll
+D:\directory-git\csgame\obj\Debug\net9.0\csgame.sourcelink.json

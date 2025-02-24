@@ -1,12 +1,10 @@
 ﻿namespace csgame
 {
-
-    using static System.Console;
-
-    class Program : Object
+    class Program
     {
         public static void Main(string[] args)
         {
+            Game game = new Game();
         }
     }
 }
