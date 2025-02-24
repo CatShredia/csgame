@@ -1,111 +1,114 @@
 namespace csgame
 {
-    using System.Reflection;
-    using System.Security.Cryptography.X509Certificates;
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
     using static System.Console;
+
+    public class RoomTypes
+    {
+        public const string Start = "/";
+        public const string Boss = "B";
+        public const string Enemy = "E";
+        public const string Shop = "S";
+        public const string Trap = "T";
+    }
+
     class Level : Object
     {
-        // Словарь для хранения строк уровня, где ключ - это координаты (i, j), а значение - строка
         public Dictionary<(int, int), string> LevelStr;
         public int Length;
         public Dictionary<string, int> RandomTypes;
-        // Конструктор класса Level, инициализирующий словарь LevelStr и RandomTypes
+        private readonly Random _random = new Random();
+
         public Level()
         {
             LevelStr = new Dictionary<(int, int), string>();
             RandomTypes = new Dictionary<string, int>();
         }
-        // Метод для генерации уровня с заданным размером
-        // startNumber - размер уровня (длина и ширина)
+
         public void GenerateLevel(int startNumber)
         {
-            Length = startNumber; // Установка длины уровня
-            SetRandomType(); // Установка типов комнат для уровня
+            if (startNumber <= 0)
+            {
+                throw new ArgumentException("Размер уровня должен быть больше нуля", nameof(startNumber));
+            }
+
+            Length = startNumber;
+            SetRandomType();
             for (int i = 0; i < Length; i++)
             {
                 for (int j = 0; j < Length; j++)
                 {
-                    // Заполнение уровня случайными типами комнат
                     LevelStr[(i, j)] = GetRandomType(i, j);
                 }
             }
         }
-        // Метод для получения случайного типа комнаты на основе координат
-        // i, j - координаты комнаты
+
         public string GetRandomType(int i, int j)
         {
-            Random random = new Random(); // Создание нового экземпляра Random
-            // Условие для первой комнаты (стартовая)
             if (Length == 2 && i == 0 && j == 0)
             {
-                return "/";
+                return RoomTypes.Start;
             }
-            // Условие для последней комнаты (комната босса)
             else if (i == Length - 1 && j == Length - 1)
             {
-                return "B";
+                return RoomTypes.Boss;
             }
             else
             {
-                int choiseNumber;
-                while (true)
-                {
-                    // Случайный выбор числа от 1 до 3
-                    choiseNumber = random.Next(1, 4);
-                    switch (choiseNumber)
-                    {
-                        case 1:
-                            return "E"; // Враг
-                        case 2:
-                            return "S"; // Магазин
-                        case 3:
-                            return "T"; // Ловушка
-                        default:
-                            PrintError("ошибка выбора типа комнаты", "level:GetRandomTypeOfRoom"); // Обработка ошибки
-                            break;
-                    }
-                }
+                var roomTypes = new List<string> { RoomTypes.Enemy, RoomTypes.Shop, RoomTypes.Trap };
+                return roomTypes[_random.Next(roomTypes.Count)];
             }
         }
-        // Метод для установки количества каждой комнаты в зависимости от размера уровня
+
         public void SetRandomType()
         {
-            double countOfRoom = Length * Length; // Общее количество комнат
-            // Установка стартовой комнаты
-            RandomTypes["/"] = 1;
-            countOfRoom -= RandomTypes["/"];
-            // Установка комнаты босса
-            RandomTypes["B"] = 1;
-            countOfRoom -= RandomTypes["B"];
-            // Установка количества комнат с врагами
-            RandomTypes["E"] = (int)Math.Ceiling((double)countOfRoom / 4);
-            countOfRoom -= RandomTypes["E"];
-            // Установка количества комнат с магазинами
-            RandomTypes["S"] = (int)Math.Ceiling((double)countOfRoom / 2);
-            countOfRoom -= RandomTypes["S"];
-            // Установка количества ловушек
-            RandomTypes["T"] = (int)Math.Ceiling((double)countOfRoom / 2);
-            countOfRoom -= RandomTypes["T"];
-            // Вывод типов комнат на консоль
-            foreach (var item in RandomTypes)
-            {
-                WriteLine(item);
-            }
+            double countOfRoom = Length * Length;
+            RandomTypes[RoomTypes.Start] = 1;
+            RandomTypes[RoomTypes.Boss] = 1;
+            countOfRoom -= 2;
+
+            RandomTypes[RoomTypes.Enemy] = (int)Math.Ceiling(countOfRoom * 0.5);
+            RandomTypes[RoomTypes.Shop] = (int)Math.Ceiling(countOfRoom * 0.3);
+            RandomTypes[RoomTypes.Trap] = (int)Math.Ceiling(countOfRoom * 0.2);
         }
+
         // Метод для вывода уровня на консоль
         public void WriteLevel()
         {
+            WriteLine();
+
             for (int i = 0; i < Length; i++)
             {
-                WriteLine(); // Переход на новую строку перед выводом строки уровня
-                WriteLine(); // Переход на новую строку перед выводом строки уровня
+                WriteLine();
                 for (int j = 0; j < Length; j++)
                 {
                     // Вывод значения ячейки в формате "[значение]"
-                    Write(" [" + LevelStr[(i, j)] + "] ");
+                    PrintWithColor($" [{LevelStr[(i, j)]}] ", ChoiseColorForegroundType(LevelStr[(i, j)]), ConsoleColor.Black);
                 }
             }
-            WriteLine(); // Переход на новую строку после завершения вывода уровня
+            WriteLine();
+        }
+
+        public ConsoleColor ChoiseColorForegroundType(string type)
+        {
+            switch (type[0])
+            {
+                case '/':
+                    return ConsoleColor.Cyan;
+                case 'B':
+                    return ConsoleColor.DarkRed;
+                case 'E':
+                    return ConsoleColor.Red;
+                case 'S':
+                    return ConsoleColor.Green;
+                case 'T':
+                    return ConsoleColor.Blue;
+                default:
+                    PrintError("неправильно выбран тип", "level: printType");
+                    return ConsoleColor.Black;
+            }
         }
     }
 }

@@ -5,7 +5,6 @@ namespace csgame
     {
         public static void PrintWithColor(string text, ConsoleColor printForeground, ConsoleColor printBackground)
         {     
-            WriteLine();       
             ForegroundColor = printForeground;
             BackgroundColor = printBackground;
             Write(text);
